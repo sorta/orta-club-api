@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_13_154124) do
+ActiveRecord::Schema.define(version: 2020_09_13_155039) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "members", force: :cascade do |t|
+    t.string "name_first", null: false
+    t.string "name_middle"
+    t.string "name_last"
+    t.date "birthdate"
+    t.boolean "is_approved", default: false
+    t.string "slug", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
 end
