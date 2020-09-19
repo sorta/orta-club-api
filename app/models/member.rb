@@ -12,6 +12,8 @@ class Member < ApplicationRecord
   validates :name_first, presence: true
   validates :slug, presence: true, uniqueness: true
 
+  has_one :user
+
   private
     def set_slug
       candidate = self.name_first.to_s.parameterize
