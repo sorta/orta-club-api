@@ -30,4 +30,10 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  error_messages:
+    not_found:
+      code: 'NotFound'
+      title: 'Count not find record'
+    unprocessable_entity:
+      code: 'UnprocessableEntity'
+      title: 'Could not process this entity'

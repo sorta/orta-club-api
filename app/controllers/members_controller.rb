@@ -5,31 +5,31 @@ class MembersController < ApplicationController
   def index
     @members = Member.all
 
-    render json: @members
+    render json: MemberSerializer.new(@members).serializable_hash
   end
 
   # GET /members/1
   def show
-    render json: @member
+    render json: MemberSerializer.new(@member).serializable_hash
   end
 
   # POST /members
   def create
-    @member = Member.new(member_params)
+    @member = Member.new(create_params)
 
     if @member.save
-      render json: @member, status: :created, location: @member
+      render json: MemberSerializer.new(@member).serializable_hash, status: :created, location: @member
     else
-      render json: @member.errors, status: :unprocessable_entity
+      render_json_error :unprocessable_entity, { details: @member.errors }
     end
   end
 
   # PATCH/PUT /members/1
   def update
-    if @member.update(member_params)
-      render json: @member
+    if @member.update(update_params)
+      render json: MemberSerializer.new(@member).serializable_hash
     else
-      render json: @member.errors, status: :unprocessable_entity
+      render_json_error :unprocessable_entity, { details: @member.errors }
     end
   end
 
@@ -45,7 +45,24 @@ class MembersController < ApplicationController
     end
 
     # Only allow a trusted parameter "white list" through.
-    def member_params
-      params.require(:member).permit(:name_first, :name_middle, :name_last, :birthdate, :is_approved, :slug)
+    def create_params
+      params.require(:member).permit(
+        :name_first, 
+        :name_middle, 
+        :name_last, 
+        :birthdate, 
+        :is_approved, 
+        :slug
+      )
+    end
+
+    def update_params
+      params.require(:member).permit(
+        :name_first, 
+        :name_middle, 
+        :name_last, 
+        :birthdate, 
+        :is_approved
+      )
     end
 end
