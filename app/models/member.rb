@@ -1,11 +1,11 @@
 class Member < ApplicationRecord
-  attr_accessor :id, 
-    :name_first, 
-    :name_middle,
-    :name_last,
-    :birthdate,
-    :is_approved,
-    :slug
+  # attr_accessor :id, 
+  #   :name_first, 
+  #   :name_middle,
+  #   :name_last,
+  #   :birthdate,
+  #   :is_approved,
+  #   :slug
 
   before_validation :set_slug, only: [:create, :update]
 
