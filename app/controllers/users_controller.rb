@@ -81,6 +81,11 @@ class UsersController < ApplicationController
     end
 
     def login_params
-      params.require(:xardion)
+      params
+        .require(:user)
+        .permit(
+          :email,
+          :password
+        )
     end
 end
