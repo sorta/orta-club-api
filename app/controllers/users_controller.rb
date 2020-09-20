@@ -16,7 +16,7 @@ class UsersController < ApplicationController
 
   # POST /users
   def create
-    @user = User.new(user_params)
+    @user = User.new(create_params)
 
     if @user.save
       render json: @user, status: :created, location: @user
@@ -27,7 +27,7 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/1
   def update
-    if @user.update(user_params)
+    if @user.update(update_params)
       render json: @user
     else
       render json: @user.errors, status: :unprocessable_entity
@@ -41,9 +41,9 @@ class UsersController < ApplicationController
 
   # POST /users/login
   def login
-    user = User.find_by(email: user_params[:email].to_s.downcase)
+    user = User.find_by(email: login_params[:email].to_s.downcase)
 
-    if user&.authenticate(user_params[:password])
+    if user&.authenticate(login_params[:password])
       auth_token = JsonWebToken.encode(user_id: user.id)
       render json: { data: { auth_token: auth_token } }, status: :ok
     else
@@ -58,7 +58,29 @@ class UsersController < ApplicationController
     end
 
     # Only allow a trusted parameter "white list" through.
-    def user_params
-      params.require(:data).require(:attributes).permit(:email, :password, :password_confirmation, :member)
+    def create_params
+      params.from_jsonapi
+        .require(:user)
+        .permit(
+          :email,
+          :password,
+          :password_confirmation,
+          :member_id
+        )
+    end
+
+    def update_params
+      params.from_jsonapi
+        .require(:user)
+        .permit(
+          :email,
+          :password,
+          :password_confirmation,
+          :member_id
+        )
+    end
+
+    def login_params
+      params.require(:xardion)
     end
 end
