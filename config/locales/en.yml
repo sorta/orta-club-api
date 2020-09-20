@@ -37,3 +37,6 @@ en:
     unprocessable_entity:
       code: 'UnprocessableEntity'
       title: 'Could not process this entity'
+    unauthorized:
+      code: 'Unauthorized'
+      title: 'Invalid Request'

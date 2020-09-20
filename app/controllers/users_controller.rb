@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :authenticate_request!, except: [:create, :login]
   before_action :set_user, only: [:show, :update, :destroy]
 
   # GET /users
@@ -36,6 +37,18 @@ class UsersController < ApplicationController
   # DELETE /users/1
   def destroy
     @user.destroy
+  end
+
+  # POST /users/login
+  def login
+    user = User.find_by(email: user_params[:email].to_s.downcase)
+
+    if user&.authenticate(user_params[:password])
+      auth_token = JsonWebToken.encode(user_id: user.id)
+      render json: { data: { auth_token: auth_token } }, status: :ok
+    else
+      render_json_error :unauthorized, { details: 'Invalid username/password' }
+    end
   end
 
   private

@@ -16,6 +16,7 @@ class MembersController < ApplicationController
   # POST /members
   def create
     @member = Member.new(create_params)
+    p ['MEM', @member]
 
     if @member.save
       render json: MemberSerializer.new(@member).serializable_hash, status: :created, location: @member
@@ -46,8 +47,8 @@ class MembersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def create_params
-      params.require(:member).permit(
-        :name_first, 
+      p ['PARA', params]
+      params.require(:member).permit(:name_first, 
         :name_middle, 
         :name_last, 
         :birthdate, 
@@ -57,7 +58,7 @@ class MembersController < ApplicationController
     end
 
     def update_params
-      params.require(:member).permit(
+      params.require(:attributes).permit(
         :name_first, 
         :name_middle, 
         :name_last, 
