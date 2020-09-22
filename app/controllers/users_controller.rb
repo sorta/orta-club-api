@@ -41,11 +41,12 @@ class UsersController < ApplicationController
 
   # POST /users/login
   def login
-    user = User.find_by(email: login_params[:email].to_s.downcase)
+    login_details = login_params
+    user = User.find_by(email: login_details[:email].to_s.downcase)
 
-    if user&.authenticate(login_params[:password])
+    if user&.authenticate(login_details[:password])
       auth_token = JsonWebToken.encode(user_id: user.id)
-      render json: { data: { auth_token: auth_token } }, status: :ok
+      render json: { token: auth_token }, status: :ok
     else
       render_json_error :unauthorized, { details: 'Invalid username/password' }
     end
