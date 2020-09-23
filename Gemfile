@@ -22,6 +22,9 @@ gem 'jsonapi_parameters'
 gem 'bcrypt', '~> 3.1.7'
 gem 'jwt', '~> 2.2'
 
+# Pundit for authorization
+gem 'pundit'
+
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 

@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::API
   require 'json_web_token'
+  include Pundit
+  # after_action :verify_authorized
 
   rescue_from ActiveRecord::RecordNotFound do |e|
     render_json_error :not_found, { details: e }
