@@ -5,6 +5,8 @@ class MembersController < ApplicationController
   def index
     @members = Member.all
 
+    # authorize @current_user
+
     render json: MemberSerializer.new(@members).serializable_hash
   end
 

@@ -5,7 +5,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def show?
-    false
+    user.id == record.id
   end
 
   def create?
@@ -13,11 +13,11 @@ class UserPolicy < ApplicationPolicy
   end
 
   def update?
-    false
+    user.id == record.id
   end
 
   def destroy?
-    false
+    user.id == record.id
   end
 
   class Scope < Scope
