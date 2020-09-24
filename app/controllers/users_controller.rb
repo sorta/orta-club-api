@@ -4,6 +4,7 @@ class UsersController < ApplicationController
 
   # GET /users
   def index
+    authorize User
     @users = User.all
 
     render json: UserSerializer.new(@users).serializable_hash
@@ -16,6 +17,7 @@ class UsersController < ApplicationController
 
   # POST /users
   def create
+    authorize User
     @user = User.new(create_params)
 
     if @user.save
@@ -46,7 +48,7 @@ class UsersController < ApplicationController
 
     if user&.authenticate(login_details[:password])
       auth_token = JsonWebToken.encode(user_id: user.id)
-      render json: { token: auth_token }, status: :ok
+      render json: { token: auth_token, id: user.id }, status: :ok
     else
       render_json_error :unauthorized, { details: 'Invalid username/password' }
     end
@@ -56,6 +58,7 @@ class UsersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
+      authorize @user
     end
 
     # Only allow a trusted parameter "white list" through.

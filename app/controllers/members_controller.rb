@@ -1,11 +1,11 @@
 class MembersController < ApplicationController
+  before_action :authenticate_request!, except: [:create]
   before_action :set_member, only: [:show, :update, :destroy]
 
   # GET /members
   def index
+    authorize Member
     @members = Member.all
-
-    # authorize @current_user
 
     render json: MemberSerializer.new(@members).serializable_hash
   end
@@ -17,6 +17,7 @@ class MembersController < ApplicationController
 
   # POST /members
   def create
+    authorize Member
     @member = Member.new(create_params)
 
     if @member.save
@@ -41,34 +42,36 @@ class MembersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_member
-      @member = Member.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def create_params
-      params.from_jsonapi
-        .require(:member)
-        .permit(
-          :name_first, 
-          :name_middle, 
-          :name_last, 
-          :birthdate, 
-          :is_approved, 
-          :slug
-        )
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_member
+    @member = Member.find(params[:id])
+    authorize @member
+  end
 
-    def update_params
-      params.from_jsonapi
-        .require(:member)
-        .permit(
-          :name_first, 
-          :name_middle, 
-          :name_last, 
-          :birthdate, 
-          :is_approved
-        )
-    end
+  # Only allow a trusted parameter "white list" through.
+  def create_params
+    params.from_jsonapi
+      .require(:member)
+      .permit(
+        :name_first,
+        :name_middle,
+        :name_last,
+        :birthdate,
+        :is_approved,
+        :slug
+      )
+  end
+
+  def update_params
+    params.from_jsonapi
+      .require(:member)
+      .permit(
+        :name_first,
+        :name_middle,
+        :name_last,
+        :birthdate,
+        :is_approved
+      )
+  end
 end
