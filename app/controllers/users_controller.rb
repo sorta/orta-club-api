@@ -12,7 +12,9 @@ class UsersController < ApplicationController
 
   # GET /users/1
   def show
-    render json: UserSerializer.new(@user).serializable_hash
+    options = {}
+    options[:include] = [:member]
+    render json: UserSerializer.new(@user, options).serializable_hash
   end
 
   # POST /users
@@ -78,8 +80,6 @@ class UsersController < ApplicationController
         .require(:user)
         .permit(
           :email,
-          :password,
-          :password_confirmation,
           :member_id
         )
     end

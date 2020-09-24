@@ -1,6 +1,6 @@
 class Member < ApplicationRecord
 
-  before_validation :set_slug, only: [:create, :update]
+  before_validation :set_slug, only: [:create]
 
   validates :name_first, presence: true
   validates :slug, presence: true, uniqueness: true
