@@ -5,7 +5,7 @@ class MemberPolicy < ApplicationPolicy
   end
 
   def show?
-    user.id == record.user_id
+    user.is_admin || user.id == record.user_id
   end
 
   def create?
@@ -13,11 +13,11 @@ class MemberPolicy < ApplicationPolicy
   end
 
   def update?
-    user.id == record.user_id
+    user.is_admin || user.id == record.user_id
   end
 
   def destroy?
-    user.id == record.user_id
+    user.is_admin || user.id == record.user_id
   end
 
   class Scope < Scope
