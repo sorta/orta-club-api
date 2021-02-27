@@ -23,11 +23,11 @@ default: &default
   host: <%= ENV.fetch("OCA_DB_HOST") %> #{ Rails.application.credentials.db[:host] } %>
   username: <%= ENV.fetch("OCA_DB_USER") %> #{ Rails.application.credentials.db[:user] } %>
   password: <%= ENV.fetch("OCA_DB_PASS") %> #{ Rails.application.credentials.db[:pw] } %>
-  database: <%= ENV.fetch("OCA_DB_NAME","orta_club_api") %>
+  # database: <%= ENV.fetch("OCA_DB_NAME","orta_club_api") %>
 
 development:
   <<: *default
-  # database: orta_club_api_development
+  database: orta_club_api_development
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
