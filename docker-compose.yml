@@ -5,16 +5,18 @@ services:
   api:
     build:
       context: .
-    image: 'oca'
     environment:
       - OCA_DB_USER=${OCA_DB_USER}
       - OCA_DB_PASS=${OCA_DB_PASS}
       - OCA_DB_HOST=db
       - OCA_ENV=${OCA_ENV}
+      - OCA_JWT_KEY=${OCA_JWT_KEY}
     ports:
       - 3000:3000
     depends_on:
       - 'db'
+    # volumes:
+    #   - .:/app
 
 # DB ##################################################################
   db:
