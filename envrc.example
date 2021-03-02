@@ -1,0 +1,6 @@
+export OCA_DB_USER=oca_user
+export OCA_DB_PASS=oca_pass
+export OCA_DB_HOST=localhost
+export OCA_ENV=dev
+export OCA_JWT_KEY=jwt
+export COMPOSE_PROJECT_NAME=oca
