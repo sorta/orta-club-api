@@ -30,4 +30,4 @@
 
 /config/credentials/test.key
 
-.envrc
+.env
