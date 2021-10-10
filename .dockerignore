@@ -30,4 +30,6 @@
 
 /config/credentials/test.key
 
-.env
+.envrc
+.git
+.gitignore

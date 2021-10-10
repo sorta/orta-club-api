@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+# API #################################################################
+  # api:
+  #   build:
+  #     context: .
+  #   environment:
+  #     - OCA_DB_USER=${OCA_DB_USER}
+  #     - OCA_DB_PASS=${OCA_DB_PASS}
+  #     - OCA_DB_HOST=db
+  #     - OCA_ENV=${OCA_ENV}
+  #     - OCA_JWT_KEY=${OCA_JWT_KEY}
+  #   ports:
+  #     - 3000:3000
+  #   depends_on:
+  #     - 'db'
+  #   volumes:
+  #     - ${PWD}:/app
+
+# DB ##################################################################
+  db:
+    image: 'postgres:12.6-alpine'
+    # volumes:
+    #   - 'postgresdb:/var/lib/postgresql/data'
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=${OCA_DB_USER}
+      - POSTGRES_PASSWORD=${OCA_DB_PASS}
+    # healthcheck:
+    #   test: ['CMD-SHELL', 'pg_isready -U ${OA_PG_USER} -d ${OA_DB_NAME}']
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 5
+
+# volumes:
+#   postgresdb:
