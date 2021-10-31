@@ -1,0 +1,2 @@
+class GayApparel < ApplicationRecord
+end
