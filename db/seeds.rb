@@ -18,10 +18,8 @@ SEEDED_MODELS.each do |model_name|
   csv_data.each do |row|
     case model_name
     when :members
-      member = Member.new
-      member.name_first = row['name_first']
+      member = Member.find_or_initialize_by(name_first: row['name_first'], name_last: row['name_last'])
       member.name_middle = row['name_middle']
-      member.name_last = row['name_last']
       member.birthdate = row['birthdate']
       member.is_approved = true
       member.save
