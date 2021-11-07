@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_31_232728) do
+ActiveRecord::Schema.define(version: 2021_11_07_181640) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -22,12 +22,20 @@ ActiveRecord::Schema.define(version: 2021_10_31_232728) do
     t.bigint "year_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "location_id", null: false
     t.index ["gay_apparel_id"], name: "index_donnings_on_gay_apparel_id"
+    t.index ["location_id"], name: "index_donnings_on_location_id"
     t.index ["member_id"], name: "index_donnings_on_member_id"
     t.index ["year_id"], name: "index_donnings_on_year_id"
   end
 
   create_table "gay_apparels", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "locations", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -63,6 +71,7 @@ ActiveRecord::Schema.define(version: 2021_10_31_232728) do
   end
 
   add_foreign_key "donnings", "gay_apparels"
+  add_foreign_key "donnings", "locations"
   add_foreign_key "donnings", "members"
   add_foreign_key "donnings", "years"
   add_foreign_key "users", "members"
