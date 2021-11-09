@@ -1,8 +1,8 @@
-class DonningSerializer
+class YearSerializer
   include JSONAPI::Serializer
-  set_type :donning
-  attributes
-    :num,
+  set_type :year
+  attributes :num,
     :created_at,
     :updated_at
+  has_many :donnings
 end

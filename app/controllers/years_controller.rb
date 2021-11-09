@@ -4,9 +4,19 @@ class YearsController < ApplicationController
 
   # GET /years
   def index
-    @years = Year.all
+    @years = Year.includes(donnings: [:gay_apparel, :location, :member]).all
 
-    render json: YearSerializer.new(@years).serializable_hash
+    options = {}
+    options[:include] = [:donnings, :'donnings.location.name', :'donnings.gay_apparel.name', :'donnings.member.name_first']
+    # options[:fields] = {
+    #   donnings: {
+    #     gay_apparel: [:name],
+    #     location: [:name],
+    #     member: [:name_first, :name_last]
+    #   }
+    # }
+
+    render json: YearSerializer.new(@years, options).serializable_hash
   end
 
   # GET /years/1
