@@ -4,17 +4,15 @@ class YearsController < ApplicationController
 
   # GET /years
   def index
-    @years = Year.includes(donnings: [:gay_apparel, :location, :member]).all
+    inclusions = year_include_params[:include].to_h
+    @years = Year.includes(inclusions).all
 
     options = {}
-    options[:include] = [:donnings, :'donnings.location.name', :'donnings.gay_apparel.name', :'donnings.member.name_first']
-    # options[:fields] = {
-    #   donnings: {
-    #     gay_apparel: [:name],
-    #     location: [:name],
-    #     member: [:name_first, :name_last]
-    #   }
-    # }
+    options[:include] = inclusions.map do |key, valueArray|
+      valueArray.map do |value|
+        "#{key}.#{value}"
+      end
+    end.flatten
 
     render json: YearSerializer.new(@years, options).serializable_hash
   end
@@ -58,5 +56,16 @@ class YearsController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def year_params
       params.from_jsonapi.require(:year).permit(:num)
+    end
+
+    def year_include_params
+      # params.permit(include: [
+      #   donnings: [
+      #     location: [:name],
+      #     gay_apparel: [:name],
+      #     member: [:name_first]
+      #   ]
+      # ])
+      params.permit(include: [donnings: []])
     end
 end
