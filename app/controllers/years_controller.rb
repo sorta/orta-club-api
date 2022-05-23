@@ -5,14 +5,25 @@ class YearsController < ApplicationController
   # GET /years
   def index
     inclusions = year_include_params[:include].to_h
-    @years = Year.includes(inclusions).all
+    sort = if year_include_params[:sort] == '-num'
+      'num DESC'
+    else
+      'num ASC'
+    end
 
     options = {}
-    options[:include] = inclusions.map do |key, valueArray|
-      valueArray.map do |value|
-        "#{key}.#{value}"
-      end
-    end.flatten
+
+    @years = if inclusions.empty?
+      Year.all.order(sort)
+    else
+      options[:include] = inclusions.map do |key, valueArray|
+        valueArray.map do |value|
+          "#{key}.#{value}"
+        end
+      end.flatten
+
+      Year.includes(inclusions).all.order(sort)
+    end
 
     render json: YearSerializer.new(@years, options).serializable_hash
   end
@@ -59,13 +70,6 @@ class YearsController < ApplicationController
     end
 
     def year_include_params
-      # params.permit(include: [
-      #   donnings: [
-      #     location: [:name],
-      #     gay_apparel: [:name],
-      #     member: [:name_first]
-      #   ]
-      # ])
-      params.permit(include: [donnings: []])
+      params.permit(:sort, include: [donnings: []])
     end
 end
