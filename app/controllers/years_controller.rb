@@ -5,16 +5,16 @@ class YearsController < ApplicationController
   # GET /years
   def index
     inclusions = year_include_params[:include].to_h
-    sort = if year_include_params[:sort] == '-num'
-      'num DESC'
-    else
+    sort = if year_include_params[:sort] == 'num'
       'num ASC'
+    else
+      'num DESC'
     end
 
     options = {}
 
     @years = if inclusions.empty?
-      Year.all.order(sort)
+      Year.includes({donnings: []}).all.order(sort)
     else
       options[:include] = inclusions.map do |key, valueArray|
         valueArray.map do |value|
